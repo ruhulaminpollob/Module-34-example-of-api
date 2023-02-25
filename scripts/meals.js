@@ -3,6 +3,17 @@ const loadMeals = (searchMeal) => {
     fetch(url)
         .then(res => res.json())
         .then(data => displayMeals(data.meals))
+        .catch(error => console.log(error))
+}
+
+const loadMeals2 = async (searchMeal) => {
+    try {
+        const res = fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchMeal}`)
+        const data = await res.json();
+        loadMeals(data)
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 const displayMeals = meals => {
@@ -32,21 +43,21 @@ document.getElementById('meal-search-btn').addEventListener('click', function ()
     loadMeals(searchValue)
 })
 const loadModalDetail = (idMeal) => {
-    
+
     const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`
     fetch(url)
-    .then(res=>res.json())
-    .then(data=>displayMealsDetail(data.meals[0]))
-    
+        .then(res => res.json())
+        .then(data => displayMealsDetail(data.meals[0]))
+
 }
-const displayMealsDetail=detail=>{
-    document.getElementById('exampleModalLabel').innerText=detail.strMeal;
-    const modalBody=document.getElementById('modal-body');
-    
-    modalBody.innerHTML=`
+const displayMealsDetail = detail => {
+    document.getElementById('exampleModalLabel').innerText = detail.strMeal;
+    const modalBody = document.getElementById('modal-body');
+
+    modalBody.innerHTML = `
     <img class="img-fluid" src="${detail.strMealThumb}" class="card-img-top" alt="...">
     `
-console.log(detail);
+    console.log(detail);
 }
 
 
